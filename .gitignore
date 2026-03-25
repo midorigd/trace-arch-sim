@@ -1,4 +1,15 @@
 .vscode/
 __pycache__/
 
+analysis
+experiments
+simulator
+
+# branch_predictor
+# cache
+
+# config.py
+# simulator.py
+# trace_parser.py
+
 .DS_Store
