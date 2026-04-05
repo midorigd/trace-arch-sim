@@ -3,13 +3,14 @@ __pycache__/
 
 analysis
 experiments
-simulator
+# simulator
 
-# branch_predictor
+branch_predictor
 # cache
+set_associative.py
 
-# config.py
-# simulator.py
-# trace_parser.py
+config.py
+simulator.py
+trace_parser.py
 
 .DS_Store
