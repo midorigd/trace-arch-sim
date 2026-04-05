@@ -1,15 +1,16 @@
 # Generates a streaming-heavy workflow with lots of writes to nearby memory addresses.
 
-N = 20000
-addr = 0
+def generate_streaming(N = 10000, filename = "trace_streaming.txt"):
 
-with open("trace_stream.txt", "w") as f:
+    addr = 0
 
-    for i in range(N):
+    with open(filename, "w") as f:
 
-        f.write(f"LOAD {hex(addr)}\n")
+        for i in range(N):
 
-        addr += 4
+            f.write(f"LOAD {hex(addr)}\n")
 
-        if addr > 4096:
-            addr = 0
+            addr += 4
+
+            if addr > 4096:
+                addr = 0

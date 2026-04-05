@@ -2,33 +2,33 @@
 
 import random
 
-N = 20000
+def generate_mixed(N = 10000, filename = "trace_mixed.txt"):
 
-with open("trace_mixed.txt", "w") as f:
+    with open(filename, "w") as f:
 
-    addr = 0
+        addr = 0
 
-    for i in range(N):
+        for i in range(N):
 
-        r = random.random()
+            r = random.random()
 
-        if r < 0.4:
+            if r < 0.4:
 
-            addr += 4
-            f.write(f"LOAD {hex(addr)}\n")
+                addr += 4
+                f.write(f"LOAD {hex(addr)}\n")
 
-        elif r < 0.6:
+            elif r < 0.6:
 
-            addr = random.randint(0, 8192)
-            f.write(f"STORE {hex(addr)}\n")
+                addr = random.randint(0, 8192)
+                f.write(f"STORE {hex(addr)}\n")
 
-        elif r < 0.85:
+            elif r < 0.85:
 
-            if i % 8 != 7:
-                f.write("BRANCH T\n")
+                if i % 8 != 7:
+                    f.write("BRANCH T\n")
+                else:
+                    f.write("BRANCH N\n")
+
             else:
-                f.write("BRANCH N\n")
 
-        else:
-
-            f.write("ALU\n")
+                f.write("ALU\n")

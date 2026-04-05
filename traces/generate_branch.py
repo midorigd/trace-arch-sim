@@ -2,21 +2,21 @@
 
 import random
 
-N = 20000
+def generate_branch(N = 10000, filename = "trace_branch.py"):
 
-with open("trace_branch.txt", "w") as f:
+    with open(filename, "w") as f:
 
-    for i in range(N):
+        for i in range(N):
 
-        if random.random() < 0.7:
+            if random.random() < 0.7:
 
-            # predictable loop-like pattern
-            if i % 10 != 9:
-                f.write("BRANCH T\n")
+                # predictable loop-like pattern
+                if i % 10 != 9:
+                    f.write("BRANCH T\n")
+                else:
+                    f.write("BRANCH N\n")
+
             else:
-                f.write("BRANCH N\n")
-
-        else:
-            # random branch
-            outcome = random.choice(["T", "N"])
-            f.write(f"BRANCH {outcome}\n")
+                # random branch
+                outcome = random.choice(["T", "N"])
+                f.write(f"BRANCH {outcome}\n")

@@ -2,15 +2,15 @@
 
 import random
 
-N = 20000
+def generate_random(N = 10000, filename = "trace_random.txt"):
 
-with open("trace_random.txt", "w") as f:
+    with open(filename, "w") as f:
 
-    for i in range(N):
+        for i in range(N):
 
-        addr = random.randint(0, 65536)
+            addr = random.randint(0, 65536)
 
-        if random.random() < 0.5:
-            f.write(f"LOAD {hex(addr)}\n")
-        else:
-            f.write(f"STORE {hex(addr)}\n")
+            if random.random() < 0.5:
+                f.write(f"LOAD {hex(addr)}\n")
+            else:
+                f.write(f"STORE {hex(addr)}\n")
