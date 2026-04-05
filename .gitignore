@@ -5,7 +5,8 @@ analysis
 experiments
 # simulator
 
-branch_predictor
+# branch_predictor
+two_bit.py
 # cache
 set_associative.py
 
