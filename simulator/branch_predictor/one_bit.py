@@ -1,4 +1,5 @@
 class OneBitPredictor:
+
     def __init__(self):
         self.prediction = False
         self.mispredicts = 0
