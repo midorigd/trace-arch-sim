@@ -3,10 +3,6 @@ __pycache__/
 
 analysis
 experiments
-# simulator
-
-# cache
-set_associative.py
 
 config.py
 simulator.py

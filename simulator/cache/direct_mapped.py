@@ -1,3 +1,5 @@
+# obsolete, use parametrized cache model for everything
+
 class DirectMappedCache:
 
     def __init__(self, size, block_size):
