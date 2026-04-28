@@ -2,7 +2,7 @@
 
 import random
 
-def generate_branch(N = 10000, filename = "trace_branch.py"):
+def generate_branch(N = 10000, filename = "trace_branch.txt"):
 
     with open(filename, "w") as f:
 

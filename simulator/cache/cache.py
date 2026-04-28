@@ -15,7 +15,7 @@ class Cache:
         self.lru = [list(range(assoc)) for _ in range(self.rows)]
 
         self.hits = 0
-        self.misses = 0
+        self.total = 0
 
     def access(self, addr):
         block_id = addr // self.block_size
@@ -26,6 +26,8 @@ class Cache:
 
         # check for hit
         for way, line in enumerate(cache_row):
+            self.total += 1
+
             if line["valid"] and line["tag"] == tag:
 
                 self.hits += 1
@@ -36,8 +38,6 @@ class Cache:
                 return True
 
         # miss
-        self.misses += 1
-
         evict = self.lru[index].pop(0)
 
         cache_row[evict]["tag"] = tag
