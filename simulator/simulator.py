@@ -13,7 +13,7 @@ def run_simulation(trace_file, config):
     predictor = OneBitPredictor() if config["predictor"] == 1 else TwoBitPredictor()
 
     cycles = 0
-    instructions = 1
+    instructions = 1 if config["pipeline_depth"] > 1 else 0
 
     for inst, arg in parse_trace(trace_file):
 
@@ -49,9 +49,9 @@ if __name__ == "__main__":
         "cache_size": 1024,
         "block_size": 16,
         "assoc": 1,
+        "predictor": 1,
         "miss_penalty": 50,
-        "pipeline_depth": 5,
-        "predictor": 1
+        "pipeline_depth": 5
     }
 
     results = run_simulation("traces/trace_streaming.txt", config)

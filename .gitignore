@@ -4,7 +4,7 @@ __pycache__/
 analysis
 experiments
 
-config.py
+# config.py
 # simulator.py
 # trace_parser.py
 
