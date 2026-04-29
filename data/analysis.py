@@ -7,8 +7,8 @@ import os
 
 # ── config ────────────────────────────────────────────────────────────────────
 
-HDFS_BASE   = "hdfs:///user/your-username/sim_data"
-OUTPUT_DIR  = "/tmp/plots"
+HDFS_BASE   = "hdfs:///user/cl6521_nyu_edu/simData"
+OUTPUT_DIR  = "plots"
 TRACES      = ["basic", "branch", "mixed", "random", "streaming"]
 PREDICTORS  = {1: "1-bit", 2: "2-bit"}
 
@@ -53,9 +53,9 @@ TRACE_COLORS = {
 
 cache_size_assoc = (
     combined
-    .groupBy("trace", "cache_size", "assoc")
+    .groupBy("trace", "size", "assoc")
     .agg(avg("cache_hitrate").alias("avg_hitrate"))
-    .orderBy("trace", "assoc", "cache_size")
+    .orderBy("trace", "assoc", "size")
     .toPandas()
 )
 
@@ -66,8 +66,8 @@ for i, trace in enumerate(TRACES):
     ax = axes[i]
     sub = cache_size_assoc[cache_size_assoc["trace"] == trace]
     for assoc in sorted(sub["assoc"].unique()):
-        d = sub[sub["assoc"] == assoc].sort_values("cache_size")
-        ax.plot(d["cache_size"], d["avg_hitrate"], marker="o", markersize=3,
+        d = sub[sub["assoc"] == assoc].sort_values("size")
+        ax.plot(d["size"], d["avg_hitrate"], marker="o", markersize=3,
                 label=f"assoc={assoc}")
     ax.set_xscale("log", base=2)
     ax.set_title(trace)
@@ -146,7 +146,7 @@ cpi_decomp = (
     .withColumn("cache_cpi", col("cache_stalls") / col("instructions"))
     .withColumn("branch_cpi", col("branch_stalls") / col("instructions"))
     .withColumn("base_cpi",
-                col("cpi") - col("cache_stalls") / col("instructions")
+                col("CPI") - col("cache_stalls") / col("instructions")
                             - col("branch_stalls") / col("instructions"))
     .groupBy("trace")
     .agg(
@@ -177,7 +177,7 @@ save("4_cpi_decomposition")
 pipeline_pred = (
     dfs["branch"]
     .groupBy("pipeline_depth", "predictor")
-    .agg(avg("cpi").alias("avg_cpi"))
+    .agg(avg("CPI").alias("avg_cpi"))
     .orderBy("pipeline_depth", "predictor")
     .toPandas()
 )
@@ -202,15 +202,15 @@ from pyspark.sql.functions import when
 
 bucketed = combined.withColumn(
     "size_bucket",
-    when(col("cache_size") <= 512,   "small  (≤512)")
-    .when(col("cache_size") <= 8192, "medium (≤8K)")
+    when(col("size") <= 512,   "small  (≤512)")
+    .when(col("size") <= 8192, "medium (≤8K)")
     .otherwise(                       "large  (>8K)")
 )
 
 miss_cpi = (
     bucketed
     .groupBy("trace", "miss_penalty", "size_bucket")
-    .agg(avg("cpi").alias("avg_cpi"))
+    .agg(avg("CPI").alias("avg_cpi"))
     .orderBy("trace", "size_bucket", "miss_penalty")
     .toPandas()
 )
@@ -237,7 +237,7 @@ save("6_miss_penalty_vs_cpi_by_cache_size")
 
 small_assoc = (
     combined
-    .filter(col("cache_size") <= 1024)
+    .filter(col("size") <= 1024)
     .groupBy("trace", "assoc")
     .agg(avg("cache_hitrate").alias("avg_hitrate"))
     .orderBy("trace", "assoc")
